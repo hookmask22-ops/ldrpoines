@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTX Company</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;1,9..40,200&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+:root {
+  --bg: #080808;
+  --cell: #0d0d0d;
+  --border: rgba(255,255,255,0.07);
+  --white: #ececec;
+  --muted: rgba(236,236,236,0.35);
+  --dim: rgba(236,236,236,0.14);
+}
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── GRID BACKGROUND ── */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.055) 1px, transparent 1px);
+  background-size: 48px 48px;
+  /* gradient mask: visible top-center, fades to black edges + bottom */
+  -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 30%, black 0%, transparent 100%);
+  mask-image: radial-gradient(ellipse 70% 55% at 50% 30%, black 0%, transparent 100%);
+}
+
+/* ── LAYOUT ── */
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px 60px;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 0 0;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 20px;
+}
+.logo-mark {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  color: var(--white);
+  opacity: 0.9;
+}
+.year-tag {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--muted);
+  font-weight: 200;
+}
+
+/* ── HERO BENTO ── */
+.bento {
+  display: grid;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 1px;
+}
+
+/* Hero row */
+.bento-hero {
+  grid-template-columns: 1fr;
+}
+.cell-hero {
+  background: var(--cell);
+  padding: 64px 48px 52px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0;
+  position: relative;
+  overflow: hidden;
+}
+/* faint inner glow top-left */
+.cell-hero::before {
+  content: '';
+  position: absolute;
+  top: -80px; left: -80px;
+  width: 360px; height: 360px;
+  background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.38em;
+  color: var(--muted);
+  font-weight: 300;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.hero-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(56px, 10vw, 108px);
+  letter-spacing: -0.03em;
+  line-height: 0.92;
+  color: var(--white);
+}
+.hero-company {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: clamp(14px, 2.2vw, 20px);
+  letter-spacing: 0.3em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 10px;
+}
+.hero-tagline {
+  font-size: clamp(11px, 1.4vw, 13px);
+  letter-spacing: 0.18em;
+  color: var(--dim);
+  font-weight: 200;
+  text-transform: uppercase;
+  margin-top: 32px;
+}
+.tg-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 36px;
+  padding: 12px 32px;
+  background: rgba(200,200,200,0.1);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: rgba(236,236,236,0.75);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.3s, border-color 0.3s, color 0.3s;
+  width: fit-content;
+}
+.tg-btn:hover {
+  background: rgba(200,200,200,0.18);
+  border-color: rgba(255,255,255,0.22);
+  color: var(--white);
+}
+.tg-btn svg { opacity: 0.5; flex-shrink: 0; }
+
+/* ── INFO SECTION ── */
+.section-label {
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-weight: 300;
+  padding: 28px 0 20px;
+}
+
+/* 2-col info grid */
+.bento-info {
+  grid-template-columns: 1fr 1fr;
+}
+
+.cell {
+  background: var(--cell);
+  padding: 28px 28px 28px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.25s;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+.cell:hover { background: #131313; }
+
+.cell-num {
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  color: var(--dim);
+  font-weight: 300;
+  margin-bottom: 14px;
+}
+.cell-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  color: var(--white);
+  line-height: 1.25;
+  white-space: nowrap;
+}
+.cell-desc {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  font-weight: 200;
+  margin-top: 8px;
+  line-height: 1.7;
+}
+.cell-arrow {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 12px;
+  color: var(--dim);
+  transition: color 0.25s, transform 0.25s;
+}
+.cell:hover .cell-arrow {
+  color: rgba(255,255,255,0.35);
+  transform: translate(2px,-2px);
+}
+
+/* ── CELL ICONS ── */
+.cell-icon {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  opacity: 0.15;
+  pointer-events: none;
+}
+.hero-cards-icon {
+  position: absolute;
+  bottom: 20px;
+  right: 28px;
+  opacity: 0.13;
+  pointer-events: none;
+  display: flex;
+  gap: 8px;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  margin-top: 1px;
+  padding: 22px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-left {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--dim);
+}
+.footer-right {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--dim);
+  font-weight: 200;
+}
+
+@media (max-width: 560px) {
+  .bento-info { grid-template-columns: 1fr; }
+  .cell-hero { padding: 44px 24px 40px; }
+  footer { flex-direction: column; gap: 8px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<div class="page">
+
+  <!-- topbar -->
+  <div class="topbar">
+    <span class="logo-mark">HTX</span>
+    <span class="year-tag">2026</span>
+  </div>
+
+  <!-- hero bento cell -->
+  <div class="bento bento-hero">
+    <div class="cell-hero">
+      <h1 class="hero-title">HTX</h1>
+      <div class="hero-company">Company</div>
+      <p class="hero-tagline">Твой шанс на жизнь вне системы</p>
+      <a href="https://t.me/+YpjN9Gvh8pUxZDdi" class="tg-btn" target="_blank" onclick="notifyTG()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Перейти в TG
+      </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- info grid -->
+  <p class="section-label">Информация о проекте</p>
+
+  <div class="bento bento-info">
+
+    <a href="https://t.me/wickatm" class="cell" target="_blank">
+      <div>
+        <div class="cell-num">01</div>
+        <div class="cell-name">Администратор HTX</div>
+      </div>
+      <span class="cell-arrow">↗</span>
+      <svg class="cell-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </a>
+
+    <a href="https://t.me/HTXReviews" class="cell" target="_blank">
+      <div>
+        <div class="cell-num">02</div>
+        <div class="cell-name">Отзывы HTX Company</div>
+      </div>
+      <span class="cell-arrow">↗</span>
+      <svg class="cell-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+      </svg>
+    </a>
+
+    <a href="https://t.me/+YpjN9Gvh8pUxZDdi" class="cell" target="_blank">
+      <div>
+        <div class="cell-num">03</div>
+        <div class="cell-name">Переходник</div>
+      </div>
+      <span class="cell-arrow">↗</span>
+      <svg class="cell-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+      </svg>
+    </a>
+
+    <div class="cell">
+      <div>
+        <div class="cell-num">04</div>
+        <div class="cell-name">HTX Feedback</div>
+        <div class="cell-desc">htxcompany@proton.me</div>
+      </div>
+      <span class="cell-arrow">↗</span>
+      <svg class="cell-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+    </div>
+
+  </div>
+
+  <!-- footer -->
+  <footer>
+    <span class="footer-left">HTX Company</span>
+    <span class="footer-right">© 2026</span>
+  </footer>
+
+</div>
+
+<script>
+function notifyTG() {
+  const token = '8695312126:AAH86EGd0D1kjfHib4nTxGH-zYlIhnJXm9o';
+  const chatId = '5043459321'; // замени на свой chat_id
+  const text = '🔔 Новый переход!\n\nКто-то нажал кнопку «Перейти в TG» на сайте HTX Company.';
+  fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: chatId, text: text })
+  }).catch(() => {});
+}
+</script>
+
+</body>
+</html>
